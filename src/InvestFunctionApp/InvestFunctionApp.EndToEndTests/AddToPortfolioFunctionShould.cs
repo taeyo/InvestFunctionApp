@@ -25,7 +25,9 @@ namespace InvestFunctionApp.EndToEndTests
             Output = output;
 #if DEBUG
             SetTestEnvironmentVariables();
+            output.WriteLine("It's DEBUG MODE");
 #endif
+            output.WriteLine("It's Release MODE");
             ReadTestEnvironmentVariables();            
         }
 
