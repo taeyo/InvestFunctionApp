@@ -31,6 +31,8 @@ namespace InvestFunctionApp.EndToEndTests
 
         private void SetTestEnvironmentVariables()
         {
+            if (!File.Exists("Properties\\launchSettings.json")) return;
+
             // set [Copy to Output Dic] option of 'launchSettings.json' to 'Copy always'
             using (var file = File.OpenText("Properties\\launchSettings.json"))
             {
