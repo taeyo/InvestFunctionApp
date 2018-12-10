@@ -14,6 +14,8 @@ namespace InvestFunctionApp.EndToEndTests
         private string PortfolioFunctionKey;
         private readonly ITestOutputHelper Output;
 
+        private const string _baseTargetUri = "https://t-investfunc-test.azurewebsites.net";
+
         public AddToPortfolioFunctionShould(ITestOutputHelper output)
         {
             Output = output;
@@ -52,14 +54,14 @@ namespace InvestFunctionApp.EndToEndTests
         private async Task CreateTestInvestorInTableStorage(Investor investor)
         {
             HttpClient client = new HttpClient();            
-            HttpResponseMessage response = await client.PostAsJsonAsync($"https://investfunctionappdemotest.azurewebsites.net/api/testing/createinvestor?code={CreateInvestorFunctionKey}", investor);
+            HttpResponseMessage response = await client.PostAsJsonAsync($"{_baseTargetUri}/api/testing/createinvestor?code={CreateInvestorFunctionKey}", investor);
             response.EnsureSuccessStatusCode();
         }
 
 
         private async Task InvokeAddToPortfolioFunction(string investorId, int amount)
         {
-            var url = $"https://investfunctionappdemotest.azurewebsites.net/api/portfolio/{investorId}?code={PortfolioFunctionKey}";
+            var url = $"{_baseTargetUri}/ api/portfolio/{investorId}?code={PortfolioFunctionKey}";
 
             var deposit = new Deposit { Amount = amount };
 
@@ -72,7 +74,7 @@ namespace InvestFunctionApp.EndToEndTests
         {
             HttpClient client = new HttpClient();
 
-            var response = await client.GetAsync($"https://investfunctionappdemotest.azurewebsites.net/api/testing/getinvestor/{investorId}?code={GetInvestorFunctionKey}");
+            var response = await client.GetAsync($"{_baseTargetUri}/api/testing/getinvestor/{investorId}?code={GetInvestorFunctionKey}");
             response.EnsureSuccessStatusCode();
 
             return JsonConvert.DeserializeObject<Investor>(await response.Content.ReadAsStringAsync());
